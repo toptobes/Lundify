@@ -5,5 +5,5 @@ import androidx.compose.ui.Modifier
 import navcontroller.NavController
 
 @Composable
-fun LoginScreen(modifier: Modifier, navController: NavController) {
+fun Library(modifier: Modifier, navController: NavController) {
 }

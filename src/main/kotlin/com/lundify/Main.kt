@@ -3,17 +3,13 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.lundify.navcontroller.PointerTracker
-import com.lundify.ui.mainelements.Background
-import com.lundify.ui.mainelements.NavBar
-import com.lundify.ui.mainelements.rememberNavBarState
+import com.lundify.navigation.PointerTracker
+import com.lundify.ui.mainelements.*
 import com.lundify.ui.screens.Screen
 import navcontroller.rememberNavController
 
@@ -21,11 +17,14 @@ import navcontroller.rememberNavController
 @Preview
 fun App(frameWindowScope: FrameWindowScope) {
 
-    val navBarState = rememberNavBarState()
     val navController by rememberNavController(Screen.HomeScreen)
+    val taskbarState = rememberTaskbarState()
+    val navBarState = rememberNavBarState()
 
     PointerTracker({
         navBarState.visible = it.x < 80
+    }, {
+        taskbarState.visible = it.x > frameWindowScope.window.width - 140 && it.y < 66
     })
 
     Background(navController)
@@ -33,6 +32,8 @@ fun App(frameWindowScope: FrameWindowScope) {
     frameWindowScope.WindowDraggableArea {
         NavBar(navBarState, navController)
     }
+
+    Taskbar(taskbarState)
 }
 
 fun main() = application {

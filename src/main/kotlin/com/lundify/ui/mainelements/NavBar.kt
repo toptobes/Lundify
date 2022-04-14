@@ -1,10 +1,10 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package com.lundify.ui.mainelements
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,9 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.lundify.ui.screens.Screen
 import navcontroller.NavController
@@ -47,7 +44,6 @@ fun NavBar(state: NavBarState, navController: NavController) {
         modifier = Modifier.clip(shape = RoundedCornerShape(10.dp, 0.dp, 0.dp, 10.dp))
             .width(width)
             .offset(offset.x.dp - 3.dp, offset.y.dp)
-
     ) {
         Screen.values().toList().forEach {
             if (!it.primary) return@forEach
@@ -72,6 +68,12 @@ fun NavBar(state: NavBarState, navController: NavController) {
                 unselectedContentColor = Color(255, 255, 255, 100)
             )
         }
+
+        Spacer(Modifier.weight(1f))
+
+        RotatingLundifyLogo(width) {
+            state.visibilityLock = !state.visibilityLock
+        }
     }
 }
 
@@ -81,8 +83,8 @@ fun rememberNavBarState() = rememberSaveable(NavBarState.Saver()) {
 }
 
 class NavBarState(
-    private val _visibilityLock: MutableState<Boolean> = mutableStateOf(false),
-    private val _visible: MutableState<Boolean> = mutableStateOf(false)
+    private val _visibilityLock: MutableState<Boolean> = mutableStateOf(true),
+    private val _visible: MutableState<Boolean> = mutableStateOf(true)
 ) {
     var visibilityLock: Boolean
         get() = _visibilityLock.value
