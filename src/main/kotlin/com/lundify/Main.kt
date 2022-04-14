@@ -1,6 +1,5 @@
 package com.lundify
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,12 +10,14 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.lundify.navigation.CurrentScreen
 import com.lundify.navigation.PointerTracker
-import com.lundify.ui.mainelements.*
-import com.lundify.ui.screens.Screen
 import com.lundify.navigation.rememberNavController
+import com.lundify.ui.mainelements.NavBar
+import com.lundify.ui.mainelements.Taskbar
+import com.lundify.ui.mainelements.rememberNavBarState
+import com.lundify.ui.mainelements.rememberTaskbarState
+import com.lundify.ui.screens.Screen
 
 @Composable
-@Preview
 fun App(frameWindowScope: FrameWindowScope) {
 
     val navController by rememberNavController(Screen.HomeScreen)
