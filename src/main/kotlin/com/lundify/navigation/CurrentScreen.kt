@@ -2,12 +2,9 @@ package com.lundify.navigation
 
 import androidx.compose.runtime.Composable
 import com.lundify.ui.screens.*
-import navcontroller.NavController
-import navcontroller.NavigationHost
-import navcontroller.composable
 
 @Composable
-fun CustomNavHost(
+fun CurrentScreen(
     navController: NavController,
 ) {
     NavigationHost(navController) {

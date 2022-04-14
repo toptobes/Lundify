@@ -1,4 +1,4 @@
-package navcontroller
+package com.lundify.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -15,9 +15,6 @@ import com.lundify.ui.screens.Screen
 import kotlinx.coroutines.delay
 
 
-/**
- * NavController
- */
 class NavController(
     private val startDestination: Screen,
     private var backStackScreens: MutableSet<Screen>,
@@ -61,9 +58,6 @@ fun rememberNavController(
 }
 
 
-/**
- * Navigation Host
- */
 class NavigationHost(
     val navController: NavController,
     val contents: @Composable NavigationGraphBuilder.() -> Unit
@@ -91,9 +85,11 @@ fun NavigationHost.NavigationGraphBuilder.composable(
     content: @Composable (Modifier) -> Unit
 ) {
     if (navController.currentScreen.value == route) {
+
         var timeout by remember {
             mutableStateOf(false)
         }
+
         val alpha by animateFloatAsState(
             targetValue = if (timeout) 1f else 0f,
             animationSpec = tween(750)

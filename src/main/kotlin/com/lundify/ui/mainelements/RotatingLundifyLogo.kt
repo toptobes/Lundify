@@ -30,7 +30,7 @@ fun RotatingLundifyLogo(size: Dp, onClick: () -> Unit) {
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1500)
+            animation = tween(2000)
         )
     )
 

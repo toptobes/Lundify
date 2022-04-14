@@ -14,25 +14,27 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import navcontroller.NavController
+import com.lundify.navigation.NavController
+import com.lundify.ui.screens.Screen
 
 @Composable
-fun Background(navController: NavController) {
+fun Background(navController: NavController, bg: Screen.Background? = null) {
 
     val currentScreen by remember { navController.currentScreen }
+    val background = bg ?: currentScreen.background
 
     val infiniteTransition = rememberInfiniteTransition()
     val color by infiniteTransition.animateColor(
-        initialValue = currentScreen.background.color.copy(.1f),
-        targetValue = currentScreen.background.color.copy(.35f),
+        initialValue = background.color.copy(.1f),
+        targetValue = background.color.copy(.35f),
         animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = LinearEasing),
+            animation = tween(2500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
 
     Image(
-        painter = painterResource(currentScreen.background.path),
+        painter = painterResource(background.path),
         contentDescription = "Background",
         colorFilter = ColorFilter.tint(color, BlendMode.Color),
         contentScale = ContentScale.FillBounds,

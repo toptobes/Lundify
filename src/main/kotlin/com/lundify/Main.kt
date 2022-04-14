@@ -1,4 +1,3 @@
-// Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.runtime.Composable
@@ -8,10 +7,11 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.lundify.navigation.CurrentScreen
 import com.lundify.navigation.PointerTracker
 import com.lundify.ui.mainelements.*
 import com.lundify.ui.screens.Screen
-import navcontroller.rememberNavController
+import com.lundify.navigation.rememberNavController
 
 @Composable
 @Preview
@@ -27,13 +27,13 @@ fun App(frameWindowScope: FrameWindowScope) {
         taskbarState.visible = it.x > frameWindowScope.window.width - 140 && it.y < 66
     })
 
-    Background(navController)
+    CurrentScreen(navController)
 
     frameWindowScope.WindowDraggableArea {
         NavBar(navBarState, navController)
     }
 
-    Taskbar(taskbarState)
+    Taskbar(taskbarState, frameWindowScope)
 }
 
 fun main() = application {
