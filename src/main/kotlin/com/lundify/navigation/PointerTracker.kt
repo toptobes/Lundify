@@ -12,14 +12,12 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 
 @Composable
-fun PointerTracker(vararg onPointerEvent: (Offset) -> Unit) {
+fun PointerTracker(onPointerEvent: (Offset) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
             .onPointerEvent(PointerEventType.Move) {
                 val position = it.changes.first().position
-                onPointerEvent.forEach {
-                    it(position)
-                }
+                onPointerEvent(position)
             }
     )
 }

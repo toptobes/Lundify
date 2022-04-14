@@ -21,11 +21,10 @@ fun App(frameWindowScope: FrameWindowScope) {
     val taskbarState = rememberTaskbarState()
     val navBarState = rememberNavBarState()
 
-    PointerTracker({
+    PointerTracker {
         navBarState.visible = it.x < 80
-    }, {
         taskbarState.visible = it.x > frameWindowScope.window.width - 140 && it.y < 66
-    })
+    }
 
     CurrentScreen(navController)
 
