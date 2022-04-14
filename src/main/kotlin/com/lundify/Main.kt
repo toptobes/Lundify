@@ -1,3 +1,5 @@
+package com.lundify
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.runtime.Composable

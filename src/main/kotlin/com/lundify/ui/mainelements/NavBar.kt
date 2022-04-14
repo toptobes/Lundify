@@ -22,8 +22,8 @@ import com.lundify.navigation.NavController
 @Composable
 fun NavBar(state: NavBarState, navController: NavController) {
 
-    var selected by remember {
-        mutableStateOf(Screen.HomeScreen)
+    LaunchedEffect(key1 = navController.currentScreen.value) {
+        state.visibilityLock = navController.currentScreen.value.showNavBar ?: state.visibilityLock
     }
 
     val width by animateDpAsState(
@@ -49,7 +49,6 @@ fun NavBar(state: NavBarState, navController: NavController) {
             NavigationRailItem(
                 selected = it == navController.currentScreen.value,
                 onClick = {
-                    selected = it
                     navController.navigate(it)
                 },
                 label = {
@@ -69,8 +68,8 @@ fun NavBar(state: NavBarState, navController: NavController) {
 
         Spacer(Modifier.weight(1f))
 
-        RotatingLundifyLogo(width) {
-            state.visibilityLock = !state.visibilityLock
+        RotatingLundifyLogo(width, state) {
+            state.visibilityLock = if (state.visibilityLock == true) null else true
         }
     }
 }
@@ -81,21 +80,18 @@ fun rememberNavBarState() = rememberSaveable(NavBarState.Saver()) {
 }
 
 class NavBarState(
-    private val _visibilityLock: MutableState<Boolean> = mutableStateOf(true),
+    private val _visibilityLock: MutableState<Boolean?> = mutableStateOf(null),
     private val _visible: MutableState<Boolean> = mutableStateOf(true)
 ) {
-    var visibilityLock: Boolean
+    var visibilityLock: Boolean?
         get() = _visibilityLock.value
         set(toggle) {
-            if (toggle) _visible.value = true
             _visibilityLock.value = toggle
         }
     var visible: Boolean
-        get() = _visible.value
+        get() = _visibilityLock.value ?: _visible.value
         set(toggle) {
-            if (!visibilityLock) {
-                _visible.value = toggle
-            }
+            _visible.value = toggle
         }
 
     companion object {

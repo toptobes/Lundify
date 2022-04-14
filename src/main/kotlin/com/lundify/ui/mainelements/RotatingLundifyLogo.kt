@@ -1,6 +1,5 @@
 package com.lundify.ui.mainelements
 
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +22,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RotatingLundifyLogo(size: Dp, onClick: () -> Unit) {
+fun RotatingLundifyLogo(size: Dp, state: NavBarState, onClick: () -> Unit) {
 
     val infiniteTransition = rememberInfiniteTransition()
     val rotation by infiniteTransition.animateFloat(
@@ -34,7 +33,7 @@ fun RotatingLundifyLogo(size: Dp, onClick: () -> Unit) {
         )
     )
 
-    var alpha by remember { mutableStateOf(200) }
+    var alpha by remember { mutableStateOf(if (state.visibilityLock == true) 200 else 120) }
 
     Box(
         modifier = Modifier.offset(y = (-10).dp, x = 2.dp)
@@ -43,7 +42,7 @@ fun RotatingLundifyLogo(size: Dp, onClick: () -> Unit) {
             .background(color = Color(34, 197, 94, alpha))
             .clickable {
                 onClick()
-                alpha = if (alpha == 200) 120 else 200
+                alpha = if (state.visibilityLock == true) 200 else 120
             }
             .fillMaxSize()
     ) {

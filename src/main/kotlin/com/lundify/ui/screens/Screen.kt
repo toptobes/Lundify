@@ -9,12 +9,14 @@ enum class Screen(
     val label: String,
     val icon: ImageVector,
     val background: Background,
-    val primary: Boolean = false
+    val primary: Boolean = false,
+    val showNavBar: Boolean? = null
 ) {
     LoginScreen(
         label = "Login",
         icon = Icons.Filled.AccountCircle,
-        background = Background("background/PurpleLB.png", Color.Magenta)
+        background = Background("background/PurpleLB.png", Color.Magenta),
+        showNavBar = false
     ),
     HomeScreen(
         label = "Home",
