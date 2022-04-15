@@ -1,3 +1,5 @@
+@file:Suppress("WrapUnaryOperator")
+
 package com.lundify.ui.mainelements
 
 import androidx.compose.animation.core.*
@@ -9,20 +11,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RotatingLundifyLogo(size: Dp, state: NavBarState, onClick: () -> Unit) {
+fun RotatingLundifyLogo(
+    size: Dp,
+    bgColor: Color,
+    boxModifier: Modifier = Modifier,
+    logoModifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
 
     val infiniteTransition = rememberInfiniteTransition()
     val rotation by infiniteTransition.animateFloat(
@@ -33,23 +43,20 @@ fun RotatingLundifyLogo(size: Dp, state: NavBarState, onClick: () -> Unit) {
         )
     )
 
-    var alpha by remember { mutableStateOf(if (state.visibilityLock == true) 200 else 120) }
-
     Box(
-        modifier = Modifier.offset(y = (-10).dp, x = 2.dp)
+        modifier = boxModifier.offset(y = -10.dp, x = 2.dp)
             .size(size - 20.dp, size - 34.dp)
             .clip(CircleShape)
-            .background(color = Color(34, 197, 94, alpha))
+            .background(color = bgColor)
             .clickable {
                 onClick()
-                alpha = if (state.visibilityLock == true) 200 else 120
             }
             .fillMaxSize()
     ) {
         Image(
             painter = painterResource("logos/LundifyLogoWithoutBG.png"),
             contentDescription = "Lundify Logo",
-            modifier = Modifier.size(size - 20.dp)
+            modifier = logoModifier.size(size - 20.dp)
                 .rotate(rotation)
         )
     }

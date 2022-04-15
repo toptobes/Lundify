@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,7 +24,7 @@ import com.lundify.navigation.NavController
 fun NavBar(state: NavBarState, navController: NavController) {
 
     LaunchedEffect(key1 = navController.currentScreen.value) {
-        state.visibilityLock = navController.currentScreen.value.showNavBar ?: state.visibilityLock
+        state.visibilityLock = navController.currentScreen.value.showNavBar
     }
 
     val width by animateDpAsState(
@@ -40,7 +41,7 @@ fun NavBar(state: NavBarState, navController: NavController) {
         backgroundColor = Color.DarkGray,
         contentColor = Color.White,
         modifier = Modifier.clip(shape = RoundedCornerShape(10.dp, 0.dp, 0.dp, 10.dp))
-            .width(width)
+            .requiredWidth(width)
             .offset(offset.x.dp - 3.dp, offset.y.dp)
     ) {
         Screen.values().toList().forEach {
@@ -68,8 +69,11 @@ fun NavBar(state: NavBarState, navController: NavController) {
 
         Spacer(Modifier.weight(1f))
 
-        RotatingLundifyLogo(width, state) {
+        var alpha by remember { mutableStateOf(if (state.visibilityLock == true) 200 else 120) }
+
+        RotatingLundifyLogo(width, Color(34, 197, 94, alpha)) {
             state.visibilityLock = if (state.visibilityLock == true) null else true
+            alpha = if (state.visibilityLock == true) 200 else 120
         }
     }
 }
@@ -80,7 +84,7 @@ fun rememberNavBarState() = rememberSaveable(NavBarState.Saver()) {
 }
 
 class NavBarState(
-    private val _visibilityLock: MutableState<Boolean?> = mutableStateOf(null),
+    private val _visibilityLock: MutableState<Boolean?> = mutableStateOf(false),
     private val _visible: MutableState<Boolean> = mutableStateOf(true)
 ) {
     var visibilityLock: Boolean?

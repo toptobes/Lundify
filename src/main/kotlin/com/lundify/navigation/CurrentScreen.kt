@@ -8,6 +8,10 @@ fun CurrentScreen(
     navController: NavController,
 ) {
     NavigationHost(navController) {
+        composable(Screen.SplashScreen) {
+            SplashScreen(it, navController)
+        }
+
         composable(Screen.LoginScreen) {
             LoginScreen(it, navController)
         }

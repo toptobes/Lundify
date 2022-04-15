@@ -18,15 +18,21 @@ import com.lundify.navigation.NavController
 import com.lundify.ui.screens.Screen
 
 @Composable
-fun Background(navController: NavController, bg: Screen.Background? = null) {
+fun Background(
+    navController: NavController,
+    bg: Screen.Background? = null,
+    initVal: Float = .1f,
+    targetVal: Float = .1f,
+    blendMode: BlendMode = BlendMode.Color
+) {
 
     val currentScreen by remember { navController.currentScreen }
     val background = bg ?: currentScreen.background
 
     val infiniteTransition = rememberInfiniteTransition()
     val color by infiniteTransition.animateColor(
-        initialValue = background.color.copy(.1f),
-        targetValue = background.color.copy(.35f),
+        initialValue = background.color.copy(initVal),
+        targetValue = background.color.copy(targetVal),
         animationSpec = infiniteRepeatable(
             animation = tween(2500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -36,7 +42,7 @@ fun Background(navController: NavController, bg: Screen.Background? = null) {
     Image(
         painter = painterResource(background.path),
         contentDescription = "Background",
-        colorFilter = ColorFilter.tint(color, BlendMode.Color),
+        colorFilter = ColorFilter.tint(color, blendMode),
         contentScale = ContentScale.FillBounds,
         modifier = Modifier.fillMaxSize().clip(shape = RoundedCornerShape(10.dp))
     )

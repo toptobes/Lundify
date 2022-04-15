@@ -12,6 +12,12 @@ enum class Screen(
     val primary: Boolean = false,
     val showNavBar: Boolean? = null
 ) {
+    SplashScreen(
+        label = "Sploosh!",
+        icon = Icons.Filled.Refresh,
+        background = Background(path = "background/LightGrayLB.png", color = Color.Black),
+        showNavBar = false
+    ),
     LoginScreen(
         label = "Login",
         icon = Icons.Filled.AccountCircle,
