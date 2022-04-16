@@ -21,8 +21,8 @@ import com.lundify.ui.screens.Screen
 fun Background(
     navController: NavController,
     bg: Screen.Background? = null,
-    initVal: Float = .1f,
-    targetVal: Float = .1f,
+    initVal: Float = .15f,
+    targetVal: Float = .4f,
     blendMode: BlendMode = BlendMode.Color
 ) {
 
