@@ -1,22 +1,21 @@
-@file:Suppress("WrapUnaryOperator")
 @file:OptIn(ExperimentalComposeUiApi::class)
+@file:Suppress("WrapUnaryOperator")
 
-package com.lundify.ui.screens
+package com.lundify.ui.screens.login
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -27,87 +26,21 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.*
-import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.PointerIconDefaults
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.lundify.navigation.NavController
-import com.lundify.ui.mainelements.Background
-import com.lundify.ui.mainelements.RotatingLundifyLogo
+import com.lundify.ui.screens.Screen
 
 @Composable
-@Preview
-fun LoginScreen(modifier: Modifier, navController: NavController) {
-    Background(navController)
-
-    Box(
-        modifier = modifier.fillMaxSize().padding(40.dp),
-        contentAlignment = Alignment.CenterStart
-    ) {
-
-        val userName = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
-
-        Column {
-            LoginText()
-            Spacer(Modifier.height(10.dp))
-            UserNameTextField(userName)
-            Spacer(Modifier.height(10.dp))
-            PasswordTextField(password)
-            Spacer(Modifier.height(20.dp))
-            LoginButton(userName, password, navController)
-        }
-    }
-}
-
-@Composable
-fun LoginButton(
-    username: MutableState<TextFieldValue>,
-    password: MutableState<TextFieldValue>,
-    navController: NavController
-) {
-    val isValid = username.isValidUserName() && password.isValidPassword()
-            && username.value.text.isNotEmpty() && password.value.text.isNotEmpty()
-
-    Row {
-        Spacer(modifier = Modifier.width(220.dp))
-        Box(
-            modifier = Modifier.offset(y = -10.dp, x = 2.dp)
-                .size(48.dp, 30.dp)
-                .clip(CircleShape)
-                .background(
-                    if (isValid) Color(34, 197, 94, 220) else Color(34, 197, 94, 150)
-                )
-                .clickable {
-                    if (isValid) {
-                        navController.navigate(Screen.HomeScreen)
-                    }
-                }
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Filled.ArrowForward,
-                contentDescription = "Login",
-                tint = Color(255, 255, 255, 200),
-                modifier = Modifier.size(48.dp, 30.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun UserNameTextField(username: MutableState<TextFieldValue>) {
+fun UserNameTextField(username: MutableState<TextFieldValue>) {
     LoginTextField(
         modifier = Modifier.height(50.dp),
         value = username.value,
@@ -125,12 +58,12 @@ private fun UserNameTextField(username: MutableState<TextFieldValue>) {
     )
 }
 
-private fun MutableState<TextFieldValue>.isValidUserName(): Boolean {
+fun MutableState<TextFieldValue>.isValidUserName(): Boolean {
     return value.text.isBlank() || value.text.matches("\\w{3,16}".toRegex())
 }
 
 @Composable
-private fun PasswordTextField(password: MutableState<TextFieldValue>) {
+fun PasswordTextField(password: MutableState<TextFieldValue>) {
 
     var showPassword by remember { mutableStateOf(false) }
 
@@ -165,57 +98,13 @@ private fun PasswordTextField(password: MutableState<TextFieldValue>) {
     )
 }
 
-private fun MutableState<TextFieldValue>.isValidPassword(): Boolean {
+fun MutableState<TextFieldValue>.isValidPassword(): Boolean {
     return value.text.isEmpty() || value.text.matches("\\w{8,32}".toRegex())
 }
 
 
 @Composable
-private fun LoginText() {
-    Row {
-        RotatingLundifyLogo(
-            size = 67.dp,
-            bgColor = Color(34, 197, 94, 150),
-            boxModifier = Modifier.offset(y = 16.dp),
-            logoModifier = Modifier.offset(y = 1.25.dp)
-        ) { }
-        Spacer(Modifier.width(10.dp))
-        Text(
-            text = "Login",
-            style = TextStyle(
-                fontSize = 40.sp,
-                color = Color(34, 197, 94, 150)
-            )
-        )
-    }
-    Spacer(Modifier.height(5.dp))
-    Row {
-        Text(
-            text = "Please enter your credentials, or ",
-            style = TextStyle(
-                fontSize = 10.sp,
-                color = Color(34, 197, 94, 150)
-            )
-        )
-        var createANewAccountColor by remember { mutableStateOf(Color(34, 197, 94, 150)) }
-        Text(
-            text = "create a new account",
-            style = TextStyle(
-                fontSize = 10.sp,
-                color = createANewAccountColor,
-                textDecoration = TextDecoration.Underline
-            ),
-            modifier = Modifier.clickable { }
-                .hoverable(
-                    onEnter = { createANewAccountColor = Color(44, 102, 219, 255); true },
-                    onExit = { createANewAccountColor = Color(34, 197, 94, 150); true }
-                )
-        )
-    }
-}
-
-@Composable
-private fun LoginTextField(
+fun LoginTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
@@ -249,7 +138,7 @@ private fun LoginTextField(
 }
 
 @Composable
-private fun LoginTextFieldIcon(
+fun LoginTextFieldIcon(
     icon: ImageVector = Icons.Filled.Done,
     tint: Color = Color(255, 255, 255, 200),
     onClick: () -> Unit = { }
@@ -267,7 +156,7 @@ private fun LoginTextFieldIcon(
 }
 
 @Composable
-private fun Modifier.clearFocusOnEsc(
+fun Modifier.clearFocusOnEsc(
     focusManager: FocusManager
 ) = onPreviewKeyEvent {
     if (it.key == Key.Escape && it.type == KeyEventType.KeyUp) {
@@ -275,11 +164,3 @@ private fun Modifier.clearFocusOnEsc(
         true
     } else false
 }
-
-
-@Composable
-private fun Modifier.hoverable(
-    onEnter: () -> Boolean = { false },
-    onExit: () -> Boolean = { false },
-    onMove: (Offset) -> Boolean = { false },
-) = this.pointerMoveFilter(onEnter = onEnter, onExit = onExit, onMove = onMove)

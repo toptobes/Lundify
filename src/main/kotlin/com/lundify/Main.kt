@@ -1,10 +1,11 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.lundify
 
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
 import com.lundify.navigation.CurrentScreen
@@ -15,11 +16,11 @@ import com.lundify.ui.mainelements.Taskbar
 import com.lundify.ui.mainelements.rememberNavBarState
 import com.lundify.ui.mainelements.rememberTaskbarState
 import com.lundify.ui.screens.Screen
-import com.lundify.ui.screens.SplashScreen
 
 @Composable
 fun App(frameWindowScope: FrameWindowScope) {
 
+//    val navController by rememberNavController(Screen.SplashScreen)
     val navController by rememberNavController(Screen.HomeScreen)
     val taskbarState = rememberTaskbarState()
     val navBarState = rememberNavBarState()
@@ -55,5 +56,4 @@ fun main() = application {
     ) {
         App(this)
     }
-
 }

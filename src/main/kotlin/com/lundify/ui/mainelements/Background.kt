@@ -25,7 +25,6 @@ fun Background(
     targetVal: Float = .4f,
     blendMode: BlendMode = BlendMode.Color
 ) {
-
     val currentScreen by remember { navController.currentScreen }
     val background = bg ?: currentScreen.background
 

@@ -79,7 +79,7 @@ private fun TitleBarButton(color: Color, onClick: () -> Unit) = Button(
 
 
 @Composable
-fun rememberTaskbarState() = rememberSaveable(TaskbarState.Saver()) {
+fun rememberTaskbarState() = rememberSaveable {
     TaskbarState()
 }
 
@@ -91,11 +91,4 @@ class TaskbarState(
         set(toggle) {
             _visible.value = toggle
         }
-
-    companion object {
-        fun Saver() = Saver<TaskbarState, TaskbarState>(
-            save = { it },
-            restore = { it }
-        )
-    }
 }

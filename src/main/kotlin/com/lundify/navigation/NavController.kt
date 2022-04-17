@@ -22,7 +22,7 @@ class NavController(
 
     var currentScreen: MutableState<Screen> = mutableStateOf(startDestination)
 
-    fun navigate(scr: Screen) {
+    fun navigateTo(scr: Screen) {
         if (scr != currentScreen.value) {
             if (backStackScreens.contains(currentScreen.value) && currentScreen.value != startDestination) {
                 backStackScreens.remove(currentScreen.value)
@@ -36,7 +36,6 @@ class NavController(
 
             currentScreen.value = scr
         }
-        println(backStackScreens)
     }
 
     fun navigateBack() {
@@ -100,10 +99,6 @@ fun NavigationHost.NavigationGraphBuilder.composable(
             timeout = true
         }
 
-        content(
-            Modifier
-                .fillMaxSize()
-                .alpha(alpha)
-        )
+        content(Modifier.alpha(alpha))
     }
 }

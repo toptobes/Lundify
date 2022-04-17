@@ -31,7 +31,7 @@ fun RotatingLundifyLogo(
     bgColor: Color,
     boxModifier: Modifier = Modifier,
     logoModifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = { }
 ) {
 
     val infiniteTransition = rememberInfiniteTransition()
@@ -44,14 +44,13 @@ fun RotatingLundifyLogo(
     )
 
     Box(
-        modifier = boxModifier.offset(y = -10.dp, x = 2.dp)
+        modifier = boxModifier.clip(CircleShape)
             .size(size - 20.dp, size - 34.dp)
-            .clip(CircleShape)
             .background(color = bgColor)
+            .fillMaxSize()
             .clickable {
                 onClick()
             }
-            .fillMaxSize()
     ) {
         Image(
             painter = painterResource("logos/LundifyLogoWithoutBG.png"),

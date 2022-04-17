@@ -24,6 +24,12 @@ enum class Screen(
         background = Background("background/PurpleLB.png", Color.Magenta),
         showNavBar = false
     ),
+    SignUpScreen(
+        label = "Sign Up",
+        icon = Icons.Filled.AccountCircle,
+        background = Background("background/PurpleLB.png", Color.Magenta),
+        showNavBar = false
+    ),
     HomeScreen(
         label = "Home",
         icon = Icons.Filled.Home,

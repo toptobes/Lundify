@@ -1,3 +1,5 @@
+@file:Suppress("WrapUnaryOperator")
+
 package com.lundify.ui.mainelements
 
 import androidx.compose.animation.core.animateDpAsState
@@ -6,25 +8,26 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.NavigationRail
+import androidx.compose.material.NavigationRailItem
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.lundify.ui.screens.Screen
 import com.lundify.navigation.NavController
+import com.lundify.ui.screens.Screen
 
 @Composable
 fun NavBar(state: NavBarState, navController: NavController) {
 
     LaunchedEffect(key1 = navController.currentScreen.value) {
-        state.visibilityLock = navController.currentScreen.value.showNavBar
+        if (state.visibilityLock != true) state.visibilityLock = navController.currentScreen.value.showNavBar
     }
 
     val width by animateDpAsState(
@@ -50,7 +53,7 @@ fun NavBar(state: NavBarState, navController: NavController) {
             NavigationRailItem(
                 selected = it == navController.currentScreen.value,
                 onClick = {
-                    navController.navigate(it)
+                    navController.navigateTo(it)
                 },
                 label = {
                     if (width >= 50.dp) Text(it.label) else Text("")
@@ -69,17 +72,20 @@ fun NavBar(state: NavBarState, navController: NavController) {
 
         Spacer(Modifier.weight(1f))
 
-        var alpha by remember { mutableStateOf(if (state.visibilityLock == true) 200 else 120) }
+        val alpha = if (state.visibilityLock == true) 200 else 120
 
-        RotatingLundifyLogo(width, Color(34, 197, 94, alpha)) {
+        RotatingLundifyLogo(
+            width,
+            Color(34, 197, 94, alpha),
+            boxModifier = Modifier.offset(y = -10.dp, x = 2.dp)
+        ) {
             state.visibilityLock = if (state.visibilityLock == true) null else true
-            alpha = if (state.visibilityLock == true) 200 else 120
         }
     }
 }
 
 @Composable
-fun rememberNavBarState() = rememberSaveable(NavBarState.Saver()) {
+fun rememberNavBarState() = rememberSaveable {
     NavBarState()
 }
 
@@ -97,11 +103,4 @@ class NavBarState(
         set(toggle) {
             _visible.value = toggle
         }
-
-    companion object {
-        fun Saver() = Saver<NavBarState, NavBarState>(
-            save = { it },
-            restore = { it }
-        )
-    }
 }
